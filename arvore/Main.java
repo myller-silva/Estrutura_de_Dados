@@ -19,15 +19,12 @@ public class Main {
   public static TreeNode subArvore(Vetor v, int inf, int sup) {
     int media = (inf + sup) / 2;
     TreeNode root = new TreeNode(v.values[media]);
-
     if (inf != media) {
       root.left = subArvore(v, inf, media);
     }
-
     if (media + 1 != sup) {
       root.right = subArvore(v, media + 1, sup);
     }
-
     return root;
   }
 
