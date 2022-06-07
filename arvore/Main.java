@@ -3,8 +3,8 @@ package arvore;
 public class Main {
   public static void main(String[] args) {
     Vetor v = new Vetor(0, 1, 2, 3, 4, 5, 6, 7, 8);
-    TreeList arvore = makeTree(v);
-    System.out.println(arvore);
+    TreeList tree = makeTree(v);
+    System.out.println(tree);
   }
 
   public static TreeList makeTree(Vetor v) {
