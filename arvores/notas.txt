@@ -1,0 +1,10 @@
+inserir antes de chegar ao fim da arvore
+
+matematica aplicada a economia e administracao
+
+while no == no.parent.left:
+	no = no.parent
+return no.parent
+
+https://www.amazon.com.br/Matem%C3%A1tica-Aplicada-%C3%A0-Economia-Administra%C3%A7%C3%A3o/dp/8529401891
+
