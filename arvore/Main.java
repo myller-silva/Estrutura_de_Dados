@@ -4,6 +4,7 @@ public class Main {
   public static void main(String[] args) {
     Vetor v = new Vetor(0, 1, 2, 3, 4, 5, 6, 7, 8);
     TreeList tree = makeTree(v);
+    System.out.println("arvore: ");
     System.out.println(tree);
   }
 
