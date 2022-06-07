@@ -3,27 +3,27 @@ package arvore;
 public class Main {
   public static void main(String[] args) {
     Vetor v = new Vetor(0, 1, 2, 3, 4, 5, 6, 7, 8);
-    TreeList arvore = constroiArvore(v);
+    TreeList arvore = makeTree(v);
     System.out.println(arvore);
   }
 
-  public static TreeList constroiArvore(Vetor v) {
+  public static TreeList makeTree(Vetor v) {
     if (v == null || v.values.length == 0) {
       return null;
     }
     TreeList tree = new TreeList();
-    tree.root = subArvore(v, 0, v.values.length);
+    tree.root = subTree(v, 0, v.values.length);
     return tree;
   }
 
-  public static TreeNode subArvore(Vetor v, int inf, int sup) {
+  public static TreeNode subTree(Vetor v, int inf, int sup) {
     int media = (inf + sup) / 2;
     TreeNode root = new TreeNode(v.values[media]);
     if (inf != media) {
-      root.left = subArvore(v, inf, media);
+      root.left = subTree(v, inf, media);
     }
     if (media + 1 != sup) {
-      root.right = subArvore(v, media + 1, sup);
+      root.right = subTree(v, media + 1, sup);
     }
     return root;
   }
