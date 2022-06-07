@@ -1,4 +1,4 @@
-package arvores;
+package arvore;
 
 public class TreeNode {
   TreeNode left;

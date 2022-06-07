@@ -1,4 +1,4 @@
-package arvores;
+package arvore;
 
 public class TreeList {
   TreeNode root;
