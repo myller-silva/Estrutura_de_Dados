@@ -1,22 +1,5 @@
 package arvores;
 
-class Vetor {
-	int[] values;
-
-	Vetor(int... values) {
-		this.values = values;
-	}
-
-	@Override
-	public String toString() {
-		String str = "";
-		for (int v : values) {
-			str += v + " ";
-		}
-		return str;
-	}
-}
-
 public class Main {
 	public static void main(String[] args) {
 		Vetor v = new Vetor(0, 1, 2, 3, 4, 5, 6, 7, 8);
@@ -50,4 +33,22 @@ public class Main {
 		return root;
 	}
 
+}
+
+
+class Vetor {
+	int[] values;
+
+	Vetor(int... values) {
+		this.values = values;
+	}
+
+	@Override
+	public String toString() {
+		String str = "";
+		for (int v : values) {
+			str += v + " ";
+		}
+		return str;
+	}
 }
