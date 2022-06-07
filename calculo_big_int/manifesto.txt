@@ -1,0 +1,3 @@
+Main-Class: atividade/Main
+Name: atividade/Main.class
+Java-Bean: false
