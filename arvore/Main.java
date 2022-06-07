@@ -19,8 +19,7 @@ public class Main {
 
   public static TreeNode subArvore(Vetor v, int inf, int sup) {
     int media = (inf + sup) / 2;
-    int value = v.values[media];
-    TreeNode root = new TreeNode(value);
+    TreeNode root = new TreeNode(v.values[media]);
 
     if (inf != media) {
       root.left = subArvore(v, inf, media);
