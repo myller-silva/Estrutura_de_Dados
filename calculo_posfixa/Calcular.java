@@ -1,4 +1,4 @@
-package infixa_para_posfixa;
+package calculo_posfixa;
 
 // import List.NodeList;
 
