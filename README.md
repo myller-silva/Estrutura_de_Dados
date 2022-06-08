@@ -1,6 +1,6 @@
 # Estrutura_de_Dados
 
-## Executar
-<div>
-java -jar Pasta/executavel.jar
-</div>
+## Para executar:
+<pre>
+java -jar Pasta/main.jar
+</pre>
