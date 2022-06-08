@@ -1,15 +1,16 @@
 package arvore;
 
-// cls && javac arvore/Main.java && java arvore/Main
+
 public class Main {
   public static void main(String[] args) {
-    Vetor v = new Vetor(25, 50, 75, 100, 125, 150, 175);
+    Vector v = new Vector(25, 50, 75, 100, 125, 150, 175);
     TreeList tree = makeTree(v);
-    System.out.println("arvore: ");
-    System.out.println(tree);
+    System.out.println("Vetor: "+v);
+    System.out.println("Arvore: ");
+    System.out.print(tree);
   }
 
-  public static TreeList makeTree(Vetor v) {
+  public static TreeList makeTree(Vector v) {
     if (v == null || v.values.length == 0) {
       return null;
     }
@@ -18,7 +19,7 @@ public class Main {
     return tree;
   }
 
-  public static TreeNode subTree(Vetor v, int inf, int sup) {
+  public static TreeNode subTree(Vector v, int inf, int sup) {
     int media = (inf + sup) / 2;
     TreeNode root = new TreeNode(v.values[media]);
     if (inf != media) {
@@ -32,11 +33,26 @@ public class Main {
 
 }
 
-class Vetor {
-  int[] values;
+class Vector {
+  Integer[] values;
 
-  Vetor(int... values) {
+  Vector(Integer... values) {
     this.values = values;
+    this.sort();
+  }
+
+  public void sort() {
+    int len = values.length;
+    int temp;
+    for (int i = len - 1; i > 0; i--) {
+      for (int j = 0; j < i; j++) {
+        if (values[j] > values[j+1]) {
+          temp = values[j];
+          values[j] = values[j+1];
+          values[j+1] = temp;
+        }
+      }
+    }
   }
 
   @Override

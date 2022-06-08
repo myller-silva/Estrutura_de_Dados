@@ -1,3 +1,3 @@
-Main-Class: atividade/Main
-Name: atividade/Main.class
+Main-Class: big_int/Main
+Name: big_int/Main.class
 Java-Bean: false
