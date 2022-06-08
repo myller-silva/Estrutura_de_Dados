@@ -1,4 +1,4 @@
-package calculo_big_int;
+package big_int;
 
 public class Node{
   String value;

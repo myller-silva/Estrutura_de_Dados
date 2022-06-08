@@ -1,4 +1,4 @@
-package calculo_posfixa;
+package posfixa;
 
 // import List.NodeList;
 

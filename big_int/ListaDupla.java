@@ -1,4 +1,4 @@
-package calculo_big_int;
+package big_int;
 
 interface Lista {
   public boolean addEnd(String value);
