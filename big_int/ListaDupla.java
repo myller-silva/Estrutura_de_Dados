@@ -1,26 +1,6 @@
 package big_int;
 
-interface Lista {
-  public boolean addEnd(String value);
-
-  public boolean addStart(String value);
-
-  public boolean deleteEnd();
-
-  public boolean deleteStart();
-
-  public boolean delete(String value);
-
-  public boolean isEmpty();
-
-  public boolean addBefore(String v1, String v2);
-
-  public boolean addAfter(String v1, String v2);
-
-  public boolean deleteAllReferences(String value);
-}
-
-public class ListaDupla implements Lista {
+public class ListaDupla {
   Node inicio;
   Node fim;
 
@@ -29,7 +9,6 @@ public class ListaDupla implements Lista {
     this.fim = null;
   }
 
-  @Override
   public boolean delete(String value) {
     if (isEmpty())
       return false;
@@ -52,7 +31,6 @@ public class ListaDupla implements Lista {
     return false;
   }
 
-  @Override
   public boolean deleteAllReferences(String value) {
     if (isEmpty())
       return false;
@@ -85,7 +63,6 @@ public class ListaDupla implements Lista {
     return excluido;
   }
 
-  @Override
   public boolean addBefore(String v1, String v2) {
     if (v2.equals(this.inicio.value))
       return addStart(v1);
@@ -104,7 +81,6 @@ public class ListaDupla implements Lista {
     return false;
   }
 
-  @Override
   public boolean addAfter(String v1, String v2) {
     Node no = this.inicio;
     while (no.proximo != null) {
@@ -135,7 +111,6 @@ public class ListaDupla implements Lista {
     return addStart(String.format("%.0f", value));
   }
 
-  @Override
   public boolean addStart(String value) {
     if (value == null)
       return false;
@@ -158,7 +133,6 @@ public class ListaDupla implements Lista {
     return addEnd(String.format("%c", value));
   }
 
-  @Override
   public boolean addEnd(String value) {
     if (value == null)
       return false;
@@ -177,7 +151,6 @@ public class ListaDupla implements Lista {
     return true;
   }
 
-  @Override
   public boolean deleteEnd() {
     if (isEmpty())
       return false;
@@ -191,7 +164,6 @@ public class ListaDupla implements Lista {
     return true;
   }
 
-  @Override
   public boolean deleteStart() {
     if (isEmpty())
       return false;
@@ -205,12 +177,10 @@ public class ListaDupla implements Lista {
     return false;
   }
 
-  @Override
   public boolean isEmpty() {
     return (this.inicio == null && this.fim == null);
   }
 
-  @Override
   public String toString() {
     Node no = this.inicio;
     String str = "";
