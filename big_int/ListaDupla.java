@@ -2,178 +2,188 @@ package big_int;
 
 interface Lista {
   public boolean addEnd(String value);
+
   public boolean addStart(String value);
+
   public boolean deleteEnd();
+
   public boolean deleteStart();
+
   public boolean delete(String value);
+
   public boolean isEmpty();
+
   public boolean addBefore(String v1, String v2);
+
   public boolean addAfter(String v1, String v2);
+
   public boolean deleteAllReferences(String value);
 }
 
-
-
-public class ListaDupla implements Lista{
+public class ListaDupla implements Lista {
   Node inicio;
   Node fim;
-  public ListaDupla(){
-    this.inicio=null;
-    this.fim=null;
+
+  public ListaDupla() {
+    this.inicio = null;
+    this.fim = null;
   }
-  /* 
-  private boolean delete(Node no){
-    System.out.println(no);
-    if(isEmpty()) return false;
-    if(no.equals(inicio)) return deleteStart();
-    if(no.equals(fim)) return deleteEnd();
-    Node ant = no.anterior;
-    Node prox = no.proximo;
-    ant.proximo = prox;
-    prox.anterior = ant;
-    return false;
-  }
-  */
 
   @Override
   public boolean delete(String value) {
-    if (isEmpty()) return false;
-    if (this.inicio.value.equals(value)) return deleteStart();
-    if (this.fim.value.equals(value)) return deleteEnd();
+    if (isEmpty())
+      return false;
+    if (this.inicio.value.equals(value))
+      return deleteStart();
+    if (this.fim.value.equals(value))
+      return deleteEnd();
 
     Node no = this.inicio.proximo;
-    while(no.proximo!=null){
-      if(no.value.equals(value)){
+    while (no.proximo != null) {
+      if (no.value.equals(value)) {
         Node ant = no.anterior;
         Node prox = no.proximo;
         ant.proximo = prox;
         prox.anterior = ant;
         return true;
-      }            
-      no=no.proximo;
+      }
+      no = no.proximo;
     }
     return false;
   }
 
   @Override
   public boolean deleteAllReferences(String value) {
-    if (isEmpty()) return false;
+    if (isEmpty())
+      return false;
     boolean excluido = false;
 
     while (this.inicio.value.equals(value)) {
-      if(deleteStart()) excluido = true;
-      if (isEmpty()) return excluido;
+      if (deleteStart())
+        excluido = true;
+      if (isEmpty())
+        return excluido;
     }
     while (this.fim.value.equals(value)) {
-      if(deleteEnd()) excluido = true;
-      if (isEmpty()) return excluido;
+      if (deleteEnd())
+        excluido = true;
+      if (isEmpty())
+        return excluido;
     }
 
     Node no = this.inicio;
-    while(no!=null){
-      if(no.value.equals(value)){
+    while (no != null) {
+      if (no.value.equals(value)) {
         Node ant = no.anterior;
         Node prox = no.proximo;
         ant.proximo = prox;
         prox.anterior = ant;
         excluido = true;
       }
-      no=no.proximo;
+      no = no.proximo;
     }
     return excluido;
   }
 
   @Override
-  public boolean addBefore(String v1, String v2){
-    if (v2.equals(this.inicio.value) )return  addStart(v1);
+  public boolean addBefore(String v1, String v2) {
+    if (v2.equals(this.inicio.value))
+      return addStart(v1);
     Node no = this.inicio;
-    while (no!=null) {
-      if(no.value.equals(v2)){
+    while (no != null) {
+      if (no.value.equals(v2)) {
         Node novo = new Node(v1);
         novo.proximo = no;
         novo.anterior = no.anterior;
-        no.anterior=novo;
-        novo.anterior.proximo=novo;
+        no.anterior = novo;
+        novo.anterior.proximo = novo;
         return true;
-      }      
-      no=no.proximo;
+      }
+      no = no.proximo;
     }
     return false;
   }
 
   @Override
-  public boolean addAfter(String v1, String v2){
+  public boolean addAfter(String v1, String v2) {
     Node no = this.inicio;
-    while (no.proximo!=null) {
-      if(no.value.equals(v2)){
+    while (no.proximo != null) {
+      if (no.value.equals(v2)) {
         Node novo = new Node(v1);
         novo.proximo = no.proximo;
         novo.anterior = no;
         no.proximo.anterior = novo;
         no.proximo = novo;
         return true;
-      }      
-      no=no.proximo;
+      }
+      no = no.proximo;
     }
-    if (v2.equals(this.fim.value) )return  addEnd(v1);
+    if (v2.equals(this.fim.value))
+      return addEnd(v1);
     return false;
   }
 
-  public boolean addStart(int value){
+  public boolean addStart(int value) {
     return addStart(String.format("%d", value));
   }
-  public boolean addStart(char value){
+
+  public boolean addStart(char value) {
     return addStart(String.format("%c", value));
   }
-  public boolean addStart(double value){
+
+  public boolean addStart(double value) {
     return addStart(String.format("%.0f", value));
   }
 
   @Override
   public boolean addStart(String value) {
-    if (value==null) return false;
+    if (value == null)
+      return false;
     Node no = new Node(value);
     if (isEmpty()) {
-      no.anterior=null;
-      no.proximo=null;
-      this.inicio=no;
-      this.fim=no;
+      no.anterior = null;
+      no.proximo = null;
+      this.inicio = no;
+      this.fim = no;
       return true;
     }
     no.proximo = this.inicio;
     this.inicio.anterior = no;
-    this.inicio =  no;
+    this.inicio = no;
 
     return true;
   }
+
   public boolean addEnd(char value) {
-    return addEnd(String.format("%c",value));
+    return addEnd(String.format("%c", value));
   }
-  
+
   @Override
   public boolean addEnd(String value) {
-    if (value==null) return false;
+    if (value == null)
+      return false;
     Node no = new Node(value);
     if (isEmpty()) {
-      no.anterior=null;
-      no.proximo=null;
-      this.inicio=no;
-      this.fim=no;
+      no.anterior = null;
+      no.proximo = null;
+      this.inicio = no;
+      this.fim = no;
       return true;
     }
     no.proximo = null;
     no.anterior = this.fim;
     this.fim.proximo = no;
-    this.fim = no;  
+    this.fim = no;
     return true;
   }
 
   @Override
   public boolean deleteEnd() {
-    if (isEmpty()) return false;
+    if (isEmpty())
+      return false;
     if (this.fim.equals(this.inicio)) {
-      this.inicio=null;
-      this.fim=null;
+      this.inicio = null;
+      this.fim = null;
       return true;
     }
     this.fim = this.fim.anterior;
@@ -183,7 +193,8 @@ public class ListaDupla implements Lista{
 
   @Override
   public boolean deleteStart() {
-    if (isEmpty()) return false;
+    if (isEmpty())
+      return false;
     if (this.fim.equals(this.inicio)) {
       this.inicio = null;
       this.fim = null;
@@ -196,40 +207,40 @@ public class ListaDupla implements Lista{
 
   @Override
   public boolean isEmpty() {
-    return (this.inicio==null && this.fim==null);
+    return (this.inicio == null && this.fim == null);
   }
-  
+
   @Override
   public String toString() {
     Node no = this.inicio;
-    String str="";
-    while (no!=null) {
-      str+=no.value+" ";
-      no=no.proximo;
+    String str = "";
+    while (no != null) {
+      str += no.value + " ";
+      no = no.proximo;
     }
     return str;
   }
-  
+
   public String toString(boolean inverso) {
-    if (!inverso) return this.toString();
-    String str="";
+    if (!inverso)
+      return this.toString();
+    String str = "";
     Node no = this.fim;
-    while (no!=null) {
-      str += no.value+" ";
-      no = no.anterior ;
+    while (no != null) {
+      str += no.value + " ";
+      no = no.anterior;
     }
     return str;
   }
 
   public String str() {
-    String str="";
+    String str = "";
     Node no = this.inicio;
-    while (no!=null) {
+    while (no != null) {
       str += no.value;
-      no = no.proximo ;
+      no = no.proximo;
     }
     return str;
   }
 
 }
-

@@ -1,35 +1,32 @@
 package posfixa;
 
-public class Pilha{
-  public Node primeiro; 
+public class Pilha {
+  public Node primeiro;
   public int length;
-  
-  
-  public Pilha(){
+
+  public Pilha() {
     this.primeiro = null;
-    this.length=0;
+    this.length = 0;
   }
 
-  public boolean isEmpty(){
-    return (this.primeiro==null);
+  public boolean isEmpty() {
+    return (this.primeiro == null);
   }
-  
+
   public boolean push(String item) {
-    try{
-      Node newNode = new Node();
-      newNode.value = item;
+    try {
+      Node newNode = new Node(item);
       newNode.next = this.primeiro;
-
       this.primeiro = newNode;
       length++;
       return true;
-    } catch(Exception e ){
+    } catch (Exception e) {
       return false;
     }
   }
 
   public boolean pop() {
-    if(isEmpty()){
+    if (isEmpty()) {
       return false;
     }
     // Node temp;
@@ -41,15 +38,13 @@ public class Pilha{
 
   @Override
   public String toString() {
-    String str="[ ";
+    String str = "[ ";
     Node temp = primeiro;
-
-    while(temp!=null){
-      str += temp.value+" ";
+    while (temp != null) {
+      str += temp.value + " ";
       temp = temp.next;
     }
-
-    str+="]";
+    str += "]";
     return str;
   }
 }

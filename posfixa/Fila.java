@@ -1,43 +1,29 @@
 package posfixa;
 
 public class Fila {
-  public Node primeiro; //front
-  public Node ultimo; //rear
+  public Node primeiro; // front
+  public Node ultimo; // rear
   int length;
 
-  public Fila(){
-    this.primeiro=null;
-    this.ultimo=null;
-    this.length=0;
+  public Fila() {
+    this.primeiro = null;
+    this.ultimo = null;
+    this.length = 0;
   }
 
   public boolean isEmpty() {
-    return (this.primeiro==null);
-  }
-
-  public boolean isFull() {
-    try{
-      new Node();
-      return false;
-    }catch(Exception e){
-      System.out.println(e);
-      return true;
-    }
+    return (this.primeiro == null);
   }
 
   public boolean push(String item) {
-    if(isFull()){
-      return false;
-    }
-    Node newNode = new Node();
-    newNode.value=item;
-    newNode.next=null;
-    if(this.primeiro==null){
-      this.primeiro=newNode;
-    }else{
+    Node newNode = new Node(item);
+    newNode.next = null;
+    if (this.primeiro == null) {
+      this.primeiro = newNode;
+    } else {
       this.ultimo.next = newNode;
     }
-    this.ultimo=newNode;
+    this.ultimo = newNode;
     length++;
     return true;
   }
@@ -46,20 +32,21 @@ public class Fila {
     return this.push(String.format("%c", c));
   }
 
-  public boolean push(String item, int index) { //teste
-    if(isFull()) return false;
-    if(isEmpty() && index!=0) return false;
-    if(index>length) return false;
-    if(index<0) return false;
-    if(index==length){
+  public boolean push(String item, int index) { 
+    if (isEmpty() && index != 0)
+      return false;
+    if (index > length)
+      return false;
+    if (index < 0)
+      return false;
+    if (index == length) {
       return this.push(item);
     }
-    if(index==0 && this.isEmpty()) {
-      return push(item);    
+    if (index == 0 && this.isEmpty()) {
+      return push(item);
     }
-    if(index==0){
-      Node n = new Node();
-      n.value = item;
+    if (index == 0) {
+      Node n = new Node(item);
       n.next = this.primeiro;
       this.primeiro = n;
       length++;
@@ -67,23 +54,19 @@ public class Fila {
     }
 
     Node no = this.primeiro;
-    for (int i = 0; i < index-1; i++) {
-      no=no.next;
+    for (int i = 0; i < index - 1; i++) {
+      no = no.next;
     }
-    Node temp = new Node();
-
-    temp.value=item;
-    temp.next=no.next;
-    no.next=temp;
+    Node temp = new Node(item);
+    temp.next = no.next;
+    no.next = temp;
 
     length++;
     return true;
   }
 
-
-
   public boolean pop() {
-    this.primeiro=this.primeiro.next;
+    this.primeiro = this.primeiro.next;
     length--;
     return false;
   }
@@ -91,16 +74,12 @@ public class Fila {
   @Override
   public String toString() {
     Node temp = primeiro;
-    String str="";
-    // str = "[ ";
-    
-    while(temp!=null){
-      str += temp.value+" ";
+    String str = "";
+    while (temp != null) {
+      str += temp.value + " ";
       temp = temp.next;
     }
-
-    // str+="]";
     return str;
   }
-  
+
 }

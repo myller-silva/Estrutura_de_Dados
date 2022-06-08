@@ -1,11 +1,10 @@
 package arvore;
 
-
 public class Main {
   public static void main(String[] args) {
     Vector v = new Vector(25, 50, 75, 100, 125, 150, 175);
     TreeList tree = makeTree(v);
-    System.out.println("Vetor: "+v);
+    System.out.println("Vetor: " + v);
     System.out.println("Arvore: ");
     System.out.print(tree);
   }
@@ -46,10 +45,10 @@ class Vector {
     int temp;
     for (int i = len - 1; i > 0; i--) {
       for (int j = 0; j < i; j++) {
-        if (values[j] > values[j+1]) {
+        if (values[j] > values[j + 1]) {
           temp = values[j];
-          values[j] = values[j+1];
-          values[j+1] = temp;
+          values[j] = values[j + 1];
+          values[j + 1] = temp;
         }
       }
     }

@@ -23,7 +23,7 @@ public class Main {
         if(!isInteger) System.out.println("entrada invalida");
       }while(!isInteger);
 
-      resultado = MM_Math.multiplicar2(str1, str2);
+      resultado = MM_Math.multiplicar(str1, str2);
       length = resultado.length();
       format = "%"+(length+5)+"s\n";
 
