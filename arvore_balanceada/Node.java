@@ -14,6 +14,7 @@ public class Node {
     String esq = String.format("%4s", (this.esq == null) ? null : this.esq.valor + "");
     String dir = String.format("%4s", (this.dir == null) ? null : this.dir.valor + "");
     String valor = String.format("%2d", this.valor);
-    return esq + " <- " + valor + " -> " + dir;
+    return esq + " <- " + valor + " -> " + dir+" , "+this.alt;
+    // return esq + " <- " + valor + " -> " + dir;
   }
 }
