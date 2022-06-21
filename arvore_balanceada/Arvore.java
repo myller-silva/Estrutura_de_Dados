@@ -4,12 +4,13 @@ public class Arvore {
   Node root;
 
   public boolean isEmpty() {
-    return (this.root==null);
+    return (this.root == null);
   }
 
-  public Node getNode(int valor){
+  public Node getNode(int valor) {
     return getNode(this.root, valor);
   }
+
   private Node getNode(Node node, int valor) {
     if (node == null) {
       return null;
@@ -24,17 +25,18 @@ public class Arvore {
   }
 
   public Node insert(int... items) {
-    Node aux = null;
+    Node node = null;
     for (int item : items) {
-      aux = insert(item);
+      node = insert(item);
     }
-    return aux;
+    return node;
   }
 
   public Node insert(int item) {
-    Node aux = insert(this.root, item, null);
-    balancear(aux);
-    return aux;
+    Node node = insert(this.root, item, null);
+    atualizarAltura(node);
+    // balancear(node);
+    return node;
   }
 
   private Node insert(Node ptr, int item, Node pai) {
@@ -68,8 +70,31 @@ public class Arvore {
     }
   }
 
-  private void balancear(Node aux) {
-    
+  private void balancear(Node node) {
+
+  }
+
+  private void atualizarAltura(Node node) {
+    Node aux = node;
+    while (aux != null) {
+      Node maior = max(aux.esq, aux.dir);
+      aux.alt = (maior == null) ? 0 : maior.alt + 1;
+      aux = aux.pai;
+    }
+  }
+
+  private Node max(Node n1, Node n2) {
+    if (n1 == null) {
+      return n2;
+    }
+    if (n2 == null) {
+      return n1;
+    }
+    if (n1.alt < n2.alt) {
+      return n2;
+    } else {
+      return n1;
+    }
   }
 
   @Override
@@ -91,4 +116,3 @@ public class Arvore {
     return str;
   }
 }
-
