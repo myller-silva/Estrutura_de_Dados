@@ -10,7 +10,6 @@ public class Node {
   Node(int valor){
     this.valor=valor;
   }
-
   
   @Override
   public String toString() {
