@@ -7,6 +7,22 @@ public class Arvore {
     return (this.root==null);
   }
 
+  public Node getNode(int valor){
+    return getNode(this.root, valor);
+  }
+  private Node getNode(Node node, int valor) {
+    if (node == null) {
+      return null;
+    }
+    if (valor < node.valor) {
+      return getNode(node.esq, valor);
+    } else if (node.valor < valor) {
+      return getNode(node.dir, valor);
+    } else {
+      return node;
+    }
+  }
+
   public Node insert(int... items) {
     Node aux = null;
     for (int item : items) {
@@ -16,16 +32,16 @@ public class Arvore {
   }
 
   public Node insert(int item) {
-    Node aux = insert(this.root, item);
-    balancear();
+    Node aux = insert(this.root, item, null);
+    balancear(aux);
     return aux;
   }
 
-  private Node insert(Node ptr, int item) {
+  private Node insert(Node ptr, int item, Node pai) {
     if (ptr == null) {
       ptr = new Node(item);
-      ptr.esq = null;
-      ptr.dir = null;
+      ptr.esq = ptr.dir = null;
+      ptr.pai = pai;
       if (root == null) {
         this.root = ptr;
       }
@@ -34,16 +50,16 @@ public class Arvore {
       Node aux = null;
       if (item < ptr.valor) {
         if (ptr.esq == null) {
-          ptr.esq = insert(ptr.esq, item);
+          ptr.esq = insert(ptr.esq, item, ptr);
         } else {
-          aux = insert(ptr.esq, item);
+          aux = insert(ptr.esq, item, ptr);
         }
         return (aux == null) ? ptr.esq : aux;
       } else if (item > ptr.valor) {
         if (ptr.dir == null) {
-          ptr.dir = insert(ptr.dir, item);
+          ptr.dir = insert(ptr.dir, item, ptr);
         } else {
-          aux = insert(ptr.dir, item);
+          aux = insert(ptr.dir, item, ptr);
         }
         return (aux == null) ? ptr.dir : aux;
       } else {
@@ -52,7 +68,7 @@ public class Arvore {
     }
   }
 
-  private void balancear() {
+  private void balancear(Node aux) {
     
   }
 
