@@ -77,8 +77,8 @@ public class Arvore {
   private void atualizarAltura(Node node) {
     Node aux = node;
     while (aux != null) {
-      Node maior = max(aux.esq, aux.dir);
-      aux.alt = (maior == null) ? 0 : maior.alt + 1;
+      Node max = max(aux.esq, aux.dir);
+      aux.alt = (max == null) ? 0 : max.alt + 1;
       aux = aux.pai;
     }
   }
