@@ -35,7 +35,7 @@ public class Arvore {
   public Node insert(int item) {
     Node node = insert(this.root, item, null);
     atualizarAltura(node);
-    // balancear(node);
+    balancear(node);
     return node;
   }
 
@@ -71,7 +71,45 @@ public class Arvore {
   }
 
   private void balancear(Node node) {
+    Node aux = node.pai;
+    if (aux != null) {
+      if (aux.esq != null && aux.dir != null) {
+        if(aux.esq.alt > aux.dir.alt+1){
+          girarParaDireita(aux);
+        }else if(aux.dir.alt > aux.esq.alt+1){
+          girarParaEsquerda(aux);
+        }
+      }      
+      balancear(node.pai);
+    }
+  }
+  private void girarParaDireita(Node node) {
+    
+  }
+  private void girarParaEsquerda(Node node) {
+    if(node.equals(this.root)){
+      rotacionarRootParaEsquerda();
+      return;
+    }
+    if(node.pai==null){
+      return;
+    }
+    Node pai = node.pai;
+    Node dir = node.dir;
+    Node aux = dir.esq;
+    pai.dir = dir;
+    dir.esq = node;
+    node.dir = aux;
+    atualizarAltura(node);
+  }
 
+  private void rotacionarRootParaEsquerda() {
+    Node aux = this.root.dir;
+    Node auxEsq = aux.esq;
+    this.root.dir = auxEsq;
+    aux.esq = this.root;
+    this.root = aux;
+    atualizarAltura(root);
   }
 
   private void atualizarAltura(Node node) {
