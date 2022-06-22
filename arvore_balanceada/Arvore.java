@@ -73,27 +73,29 @@ public class Arvore {
   private void balancear(Node node) {
     Node aux = node.pai;
     if (aux != null) {
-      if (aux.esq != null && aux.dir != null) {
-        if(aux.esq.alt > aux.dir.alt+1){
-          girarParaDireita(aux);
-        }else if(aux.dir.alt > aux.esq.alt+1){
-          girarParaEsquerda(aux);
-        }
-      }      
+      int esq = (aux.esq==null) ? -1 : aux.esq.alt ;
+      int dir = (aux.dir==null) ? -1 : aux.dir.alt ;
+      if (esq > dir + 1) {
+        girarParaDireita(aux);
+      } else if (dir > esq + 1) {
+        girarParaEsquerda(aux);
+      }
       balancear(node.pai);
     }
   }
+
   private void girarParaDireita(Node node) {
-    
+
   }
+
   private void girarParaEsquerda(Node node) {
-    if(node.equals(this.root)){
+    if (node.equals(this.root)) {
       rotacionarRootParaEsquerda();
       return;
     }
-    if(node.pai==null){
-      return;
-    }
+    // if(node.pai == null) {
+    //   return;
+    // }
     Node pai = node.pai;
     Node dir = node.dir;
     Node aux = dir.esq;
