@@ -27,6 +27,7 @@ public class Arvore {
   public Node insert(int... items) {
     Node node = null;
     for (int item : items) {
+      // System.out.println(this+"\n");
       node = insert(item);
     }
     return node;
@@ -71,16 +72,15 @@ public class Arvore {
   }
 
   private void balancear(Node node) {
-    Node aux = node.pai;
-    if (aux != null) {
-      int esq = (aux.esq==null) ? -1 : aux.esq.alt ;
-      int dir = (aux.dir==null) ? -1 : aux.dir.alt ;
+    while (node != null) {
+      int esq = (node.esq == null) ? -1 : node.esq.alt;
+      int dir = (node.dir == null) ? -1 : node.dir.alt;
       if (esq > dir + 1) {
-        girarParaDireita(aux);
+        girarParaDireita(node);
       } else if (dir > esq + 1) {
-        girarParaEsquerda(aux);
+        girarParaEsquerda(node);
       }
-      balancear(node.pai);
+      node = node.pai;
     }
   }
 
@@ -88,53 +88,58 @@ public class Arvore {
 
   }
 
-  private void girarParaEsquerda(Node node) {
+  private void girarParaEsquerda(Node node) { // obs
     if (node.equals(this.root)) {
-      rotacionarRootParaEsquerda();
+      giraRootEsquerda(node);
       return;
-    }
-    // if(node.pai == null) {
-    //   return;
-    // }
+    } 
+    
+    Node nodeDir = node.dir;
+
     Node pai = node.pai;
-    Node dir = node.dir;
-    Node aux = dir.esq;
-    pai.dir = dir;
-    dir.esq = node;
-    node.dir = aux;
+    pai.dir = node.dir;
+    node.dir.pai = pai; //
+    Node nodeDirEsq = node.dir.esq;
+    node.dir.esq = node;
+    node.dir = nodeDirEsq;
+    
+    node.pai = nodeDir;
+    if(nodeDirEsq!=null){
+      nodeDirEsq.pai = node;
+    }
+    atualizarAltura(node);
+  }
+  
+  private void giraRootEsquerda(Node node) { // obs: atualizar pai
+    Node nodeDir = node.dir;
+    node.dir = nodeDir.esq;
+    nodeDir.esq = node;
+    this.root = nodeDir;
+
+    this.root.pai = null;
+    node.pai = this.root;
+
     atualizarAltura(node);
   }
 
-  private void rotacionarRootParaEsquerda() {
-    Node aux = this.root.dir;
-    Node auxEsq = aux.esq;
-    this.root.dir = auxEsq;
-    aux.esq = this.root;
-    this.root = aux;
-    atualizarAltura(root);
-  }
-
   private void atualizarAltura(Node node) {
-    Node aux = node;
-    while (aux != null) {
-      Node max = max(aux.esq, aux.dir);
-      aux.alt = (max == null) ? 0 : max.alt + 1;
-      aux = aux.pai;
+    while (node != null) {
+      node.alt = max(node.esq, node.dir) + 1;
+      node = node.pai;
     }
   }
 
-  private Node max(Node n1, Node n2) {
-    if (n1 == null) {
-      return n2;
+  private int max(Node n1, Node n2) {
+    if (n1 != null && n2 != null) {
+      return (n1.alt > n2.alt) ? n1.alt : n2.alt;
     }
-    if (n2 == null) {
-      return n1;
+    if (n1 != null) {
+      return n1.alt;
     }
-    if (n1.alt < n2.alt) {
-      return n2;
-    } else {
-      return n1;
+    if (n2 != null) {
+      return n2.alt;
     }
+    return -1;
   }
 
   @Override
