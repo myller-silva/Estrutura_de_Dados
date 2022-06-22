@@ -85,15 +85,38 @@ public class Arvore {
   }
 
   private void girarParaDireita(Node node) {
+    if (node.equals(this.root)) {
+      girarRootDireita(node);
+      return;
+    }
 
+  }
+
+  private void girarRootDireita(Node Z ) {
+    Node Y = Z.esq; 
+    // Node yDir = Y.dir;
+    if(Y.esq==null){
+      return;
+    }
+    this.root = Y;
+    Z.esq = Y.dir;
+    Y.dir = Z;
+
+    this.root.pai = null;
+    Z.pai = Y;
+
+    // if(yDir!=null){
+    //   yDir.pai = Z;
+    // }
+    atualizarAltura(Z);
   }
 
   private void girarParaEsquerda(Node node) { // obs
     if (node.equals(this.root)) {
       giraRootEsquerda(node);
       return;
-    } 
-    
+    }
+
     Node nodeDir = node.dir;
 
     Node pai = node.pai;
@@ -102,14 +125,14 @@ public class Arvore {
     Node nodeDirEsq = node.dir.esq;
     node.dir.esq = node;
     node.dir = nodeDirEsq;
-    
+
     node.pai = nodeDir;
-    if(nodeDirEsq!=null){
+    if (nodeDirEsq != null) {
       nodeDirEsq.pai = node;
     }
     atualizarAltura(node);
   }
-  
+
   private void giraRootEsquerda(Node node) { // obs: atualizar pai
     Node nodeDir = node.dir;
     node.dir = nodeDir.esq;

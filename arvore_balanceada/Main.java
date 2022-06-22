@@ -6,11 +6,11 @@ public class Main {
 
     // a.insert(25, 50, 75, 100, 125, 150, 175, 200, 250, 300);
     
-    a.insert( 30, 20, 15);
+    a.insert( 4, 2, 3, 1);
 
     System.out.println(a);
 
-    System.out.println( a.getNode(15).pai );
+    System.out.println( a.getNode(2).pai );
     System.out.println( a.root.pai );
   }
 }
