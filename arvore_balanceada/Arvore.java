@@ -54,65 +54,89 @@ public class Arvore {
     }
   }
 
+
+  
+
+
   private void balancear(Node node) {
     while (node != null) {
       int esq = (node.esq == null) ? -1 : node.esq.alt;
       int dir = (node.dir == null) ? -1 : node.dir.alt;
       if (esq > dir + 1) {
+        // System.out.println("girarParaDireita");
         girarParaDireita(node);
       } else if (dir > esq + 1) {
+        // System.out.println("girarParaEsquerda");
         girarParaEsquerda(node);
       }
       node = node.pai;
     }
   }
 
-  private void ajustarDireita(Node node){
-    Node noE = node.esq;
-    Node noED = node.esq.dir;
-    node.esq = noED;
-    noED.pai = node;
-    noED.esq = noE;
-    noE.pai = noED;
-    noE.dir = null;
-    noE.alt = 0;
-    noED.alt = 1;
+
+
+
+
+
+
+
+  private void ajustarGiroParaDireita(Node A){
+    Node B = A.esq;
+    Node C = B.dir;
+    Node D = C.esq;
+    A.esq = C;
+    C.esq = B;
+    B.dir = D;
+    B.pai = C;
+    C.pai = A;
+    if(D!=null){
+      D.pai = B;
+    }
+    atualizarAltura(B);
   }
 
-  private void girarParaDireita(Node node) {
-    if (node.equals(this.root)) {
-      girarRootDireita(node);
+  private void girarParaDireita(Node A) {
+    
+    // System.out.println(">>> antes: \n"+this+"\n");
+    if (A.equals(this.root)) {
+      girarRootDireita(A);
       return;
     }
     
-    if(node.esq.esq==null){
-      ajustarDireita(node);
+    if(A.esq.esq==null){
+      ajustarGiroParaDireita(A);
     }
 
-    Node pai = node.pai;
-    Node noE = node.esq;
-    Node S = node.esq.dir;
-    
-    Node noE_pai = pai;
-    Node noPai = noE;
-    Node S_pai = node;
-    
-    pai.esq = noE;
-    noE.pai = noE_pai;
-    noE.dir = node;
-    node.esq = S;
-    node.pai = noPai;
-    if(S!=null){
-      S.pai = S_pai;
+    Node P = A.pai;
+    Node B = A.esq;
+    Node D  = B.dir;
+
+    if(P.esq.equals(A)){
+      P.esq = B;
+    }else{
+      P.dir = B;
     }
-    atualizarAltura(node);
+    
+    B.dir = A;
+    A.esq = D;
+
+    A.pai = B;
+    B.pai = P;
+    if(D!=null){
+      D.pai = A;
+    }
+
+    // System.out.println(">>> depois: \n"+this+"\n");
+    atualizarAltura(A);
   }
 
+  
+  
   private void girarRootDireita(Node node) {
     Node aux = node.esq;
     Node auxDir = aux.dir;
     if (aux.esq == null) {
-      return;
+      ajustarGiroParaDireita(node);
     }
     this.root = aux;
     node.esq = aux.dir;
@@ -127,20 +151,76 @@ public class Arvore {
     atualizarAltura(node);
   }
 
-  private void girarParaEsquerda(Node node) { //erro
+
+  
+
+
+  private void girarParaEsquerda(Node node) {
     if (node.equals(this.root)) {
-      giraRootEsquerda(node);
+      girarRootEsquerda(node);
       return;
     }
-    // System.out.println("girar para esquerda "+node);
     
+    if(node.dir.dir==null){
+      ajustarGiroParaEsquerda(node);
+    }
+
+    Node pai = node.pai;
+    Node nodeDir = node.dir;
+    Node aux = node.dir.esq;
+
+    if(pai.esq.equals(node)){
+      pai.esq = nodeDir;
+    }else{
+      pai.dir = nodeDir;
+    }
+
+    node.dir = aux;
+    nodeDir.esq = node;
+    node.pai = nodeDir;
+    nodeDir.pai = pai;
+    if(aux!=null){
+      aux.pai = node;
+    }
     atualizarAltura(node);
   }
 
-  private void giraRootEsquerda(Node node) { // obs: atualizar pai
-    
+  private void girarRootEsquerda(Node node) {  
+    if(node.dir.dir==null){
+      ajustarGiroParaEsquerda(node);
+    }
+    Node root = this.root;
+    Node rootDir = this.root.dir;
+    Node rootDirEsq = root.dir.esq;
+    root.dir = rootDirEsq;
+    rootDir.esq = root;
+    root.pai = rootDir;
+    rootDir.pai = null;
+    if(rootDirEsq!=null){
+      rootDirEsq.pai = root;
+    }
+    this.root = rootDir;
     atualizarAltura(node);
   }
+
+  private void ajustarGiroParaEsquerda(Node A) {
+    Node B = A.dir, C = A.dir.esq, D = A.dir.esq.dir;
+    A.dir = C;
+    C.dir = B;
+    B.esq = D;
+
+    C.pai = A;
+    B.pai = C;
+    if(D!=null){
+      D.pai = B;
+    }
+    atualizarAltura(B);
+  }
+
+
+
+
+
 
   private void atualizarAltura(Node node) {
     while (node != null) {
