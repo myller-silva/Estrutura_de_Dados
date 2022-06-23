@@ -7,23 +7,6 @@ public class Arvore {
     return (this.root == null);
   }
 
-  public Node getNode(int valor) {
-    return getNode(this.root, valor);
-  }
-
-  private Node getNode(Node node, int valor) {
-    if (node == null) {
-      return null;
-    }
-    if (valor < node.valor) {
-      return getNode(node.esq, valor);
-    } else if (node.valor < valor) {
-      return getNode(node.dir, valor);
-    } else {
-      return node;
-    }
-  }
-
   public Node insert(int... items) {
     Node node = null;
     for (int item : items) {
@@ -84,64 +67,78 @@ public class Arvore {
     }
   }
 
+  private void ajustarDireita(Node node){
+    Node noE = node.esq;
+    Node noED = node.esq.dir;
+    node.esq = noED;
+    noED.pai = node;
+    noED.esq = noE;
+    noE.pai = noED;
+    noE.dir = null;
+    noE.alt = 0;
+    noED.alt = 1;
+  }
+
   private void girarParaDireita(Node node) {
     if (node.equals(this.root)) {
       girarRootDireita(node);
       return;
     }
-
-  }
-
-  private void girarRootDireita(Node Z ) {
-    Node Y = Z.esq; 
-    // Node yDir = Y.dir;
-    if(Y.esq==null){
-      return;
+    
+    if(node.esq.esq==null){
+      ajustarDireita(node);
     }
-    this.root = Y;
-    Z.esq = Y.dir;
-    Y.dir = Z;
-
-    this.root.pai = null;
-    Z.pai = Y;
-
-    // if(yDir!=null){
-    //   yDir.pai = Z;
-    // }
-    atualizarAltura(Z);
-  }
-
-  private void girarParaEsquerda(Node node) { // obs
-    if (node.equals(this.root)) {
-      giraRootEsquerda(node);
-      return;
-    }
-
-    Node nodeDir = node.dir;
 
     Node pai = node.pai;
-    pai.dir = node.dir;
-    node.dir.pai = pai; //
-    Node nodeDirEsq = node.dir.esq;
-    node.dir.esq = node;
-    node.dir = nodeDirEsq;
-
-    node.pai = nodeDir;
-    if (nodeDirEsq != null) {
-      nodeDirEsq.pai = node;
+    Node noE = node.esq;
+    Node S = node.esq.dir;
+    
+    Node noE_pai = pai;
+    Node noPai = noE;
+    Node S_pai = node;
+    
+    pai.esq = noE;
+    noE.pai = noE_pai;
+    noE.dir = node;
+    node.esq = S;
+    node.pai = noPai;
+    if(S!=null){
+      S.pai = S_pai;
     }
     atualizarAltura(node);
   }
 
-  private void giraRootEsquerda(Node node) { // obs: atualizar pai
-    Node nodeDir = node.dir;
-    node.dir = nodeDir.esq;
-    nodeDir.esq = node;
-    this.root = nodeDir;
+  private void girarRootDireita(Node node) {
+    Node aux = node.esq;
+    Node auxDir = aux.dir;
+    if (aux.esq == null) {
+      return;
+    }
+    this.root = aux;
+    node.esq = aux.dir;
+    aux.dir = node;
 
     this.root.pai = null;
-    node.pai = this.root;
+    node.pai = aux;
 
+    if (auxDir != null) {
+      auxDir.pai = node;
+    }
+    atualizarAltura(node);
+  }
+
+  private void girarParaEsquerda(Node node) { //erro
+    if (node.equals(this.root)) {
+      giraRootEsquerda(node);
+      return;
+    }
+    // System.out.println("girar para esquerda "+node);
+    
+    atualizarAltura(node);
+  }
+
+  private void giraRootEsquerda(Node node) { // obs: atualizar pai
+    
     atualizarAltura(node);
   }
 
@@ -163,6 +160,23 @@ public class Arvore {
       return n2.alt;
     }
     return -1;
+  }
+
+  public Node getNode(int valor) {
+    return getNode(this.root, valor);
+  }
+
+  private Node getNode(Node node, int valor) {
+    if (node == null) {
+      return null;
+    }
+    if (valor < node.valor) {
+      return getNode(node.esq, valor);
+    } else if (node.valor < valor) {
+      return getNode(node.dir, valor);
+    } else {
+      return node;
+    }
   }
 
   @Override
