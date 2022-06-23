@@ -1,6 +1,5 @@
-package posfixa;
+package avaliacao1;
 
-// import List.NodeList;
 
 public class Calcular {
   

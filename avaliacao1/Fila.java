@@ -1,4 +1,4 @@
-package posfixa;
+package avaliacao1;
 
 public class Fila {
   public Node primeiro; // front

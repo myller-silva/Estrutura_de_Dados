@@ -1,4 +1,4 @@
-package posfixa;
+package avaliacao1;
 
 public class Pilha {
   public Node primeiro;

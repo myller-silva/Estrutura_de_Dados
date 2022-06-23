@@ -1,4 +1,4 @@
-package arvore_balanceada;
+package avaliacao4;
 
 public class Node {
   Node pai, esq, dir;
