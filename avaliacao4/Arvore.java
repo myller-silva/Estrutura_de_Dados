@@ -3,6 +3,15 @@ package avaliacao4;
 public class Arvore {
   Node root;
 
+  Arvore() {
+  }
+
+  Arvore(int... values) {
+    for (int value : values) {
+      this.insert(value);
+    }
+  }
+
   public boolean isEmpty() {
     return (this.root == null);
   }
@@ -10,7 +19,6 @@ public class Arvore {
   public Node insert(int... items) {
     Node node = null;
     for (int item : items) {
-      // System.out.println(this+"\n");
       node = insert(item);
     }
     return node;
@@ -54,173 +62,129 @@ public class Arvore {
     }
   }
 
-
-  
-
-
   private void balancear(Node node) {
     while (node != null) {
       int esq = (node.esq == null) ? -1 : node.esq.alt;
       int dir = (node.dir == null) ? -1 : node.dir.alt;
       if (esq > dir + 1) {
-        // System.out.println("girarParaDireita");
-        girarParaDireita(node);
+        node = girarParaDireita(node);
       } else if (dir > esq + 1) {
-        // System.out.println("girarParaEsquerda");
-        girarParaEsquerda(node);
+        node = girarParaEsquerda(node);
+      }
+      if (node == null) {
+        break;
       }
       node = node.pai;
     }
   }
 
-
-
-
-
-
-
-
-  private void ajustarGiroParaDireita(Node A){
-    Node B = A.esq;
-    Node C = B.dir;
-    Node D = C.esq;
-    A.esq = C;
-    C.esq = B;
-    B.dir = D;
-    B.pai = C;
-    C.pai = A;
-    if(D!=null){
-      D.pai = B;
+  private void ajustarGiroParaDireita(Node node) {
+    Node aux = node.esq, aux2 = aux.dir, aux3 = aux2.esq;
+    node.esq = aux2;
+    aux2.esq = aux;
+    aux.dir = aux3;
+    aux.pai = aux2;
+    aux2.pai = node;
+    if (aux3 != null) {
+      aux3.pai = aux;
     }
-    atualizarAltura(B);
+    atualizarAltura(aux);
   }
 
-  private void girarParaDireita(Node A) {
-    
-    // System.out.println(">>> antes: \n"+this+"\n");
-    if (A.equals(this.root)) {
-      girarRootDireita(A);
-      return;
+  private Node girarParaDireita(Node node) {
+    if (node.equals(this.root)) {
+      return girarRootDireita(node);
     }
-    
-    if(A.esq.esq==null){
-      ajustarGiroParaDireita(A);
+    if (node.esq.esq == null) {
+      ajustarGiroParaDireita(node);
     }
-
-    Node P = A.pai;
-    Node B = A.esq;
-    Node D  = B.dir;
-
-    if(P.esq.equals(A)){
-      P.esq = B;
-    }else{
-      P.dir = B;
+    Node pai = node.pai, aux = node.esq, aux2 = aux.dir;
+    if (pai.esq.equals(node)) {
+      pai.esq = aux;
+    } else {
+      pai.dir = aux;
     }
-    
-    B.dir = A;
-    A.esq = D;
-
-    A.pai = B;
-    B.pai = P;
-    if(D!=null){
-      D.pai = A;
+    aux.dir = node;
+    node.esq = aux2;
+    node.pai = aux;
+    aux.pai = pai;
+    if (aux2 != null) {
+      aux2.pai = node;
     }
-
-    // System.out.println(">>> depois: \n"+this+"\n");
-    atualizarAltura(A);
+    atualizarAltura(node);
+    return aux;
   }
 
-  
-  
-  private void girarRootDireita(Node node) {
-    Node aux = node.esq;
-    Node auxDir = aux.dir;
+  private Node girarRootDireita(Node node) {
+    Node aux = node.esq, aux2 = aux.dir;
     if (aux.esq == null) {
       ajustarGiroParaDireita(node);
     }
     this.root = aux;
     node.esq = aux.dir;
     aux.dir = node;
-
     this.root.pai = null;
     node.pai = aux;
-
-    if (auxDir != null) {
-      auxDir.pai = node;
+    if (aux2 != null) {
+      aux2.pai = node;
     }
     atualizarAltura(node);
+    return this.root;
   }
 
-
-  
-
-
-  private void girarParaEsquerda(Node node) {
+  private Node girarParaEsquerda(Node node) {
     if (node.equals(this.root)) {
-      girarRootEsquerda(node);
-      return;
+      return girarRootEsquerda(node);
     }
-    
-    if(node.dir.dir==null){
+    if (node.dir.dir == null) {
       ajustarGiroParaEsquerda(node);
     }
-
-    Node pai = node.pai;
-    Node nodeDir = node.dir;
-    Node aux = node.dir.esq;
-
-    if(pai.esq.equals(node)){
-      pai.esq = nodeDir;
-    }else{
-      pai.dir = nodeDir;
+    Node pai = node.pai,  aux = node.dir,  aux2 = node.dir.esq;
+    if (pai.esq.equals(node)) {
+      pai.esq = aux;
+    } else {
+      pai.dir = aux;
     }
-
-    node.dir = aux;
-    nodeDir.esq = node;
-    node.pai = nodeDir;
-    nodeDir.pai = pai;
-    if(aux!=null){
-      aux.pai = node;
+    node.dir = aux2;
+    aux.esq = node;
+    node.pai = aux;
+    aux.pai = pai;
+    if (aux2 != null) {
+      aux2.pai = node;
     }
     atualizarAltura(node);
+    return aux;
   }
 
-  private void girarRootEsquerda(Node node) {  
-    if(node.dir.dir==null){
+  private Node girarRootEsquerda(Node node) {
+    if (node.dir.dir == null) {
       ajustarGiroParaEsquerda(node);
     }
-    Node root = this.root;
-    Node rootDir = this.root.dir;
-    Node rootDirEsq = root.dir.esq;
-    root.dir = rootDirEsq;
-    rootDir.esq = root;
-    root.pai = rootDir;
-    rootDir.pai = null;
-    if(rootDirEsq!=null){
-      rootDirEsq.pai = root;
+    Node aux = this.root, aux2 = this.root.dir, aux3 = aux.dir.esq;
+    aux.dir = aux3;
+    aux2.esq = aux;
+    aux.pai = aux2;
+    aux2.pai = null;
+    if (aux3 != null) {
+      aux3.pai = aux;
     }
-    this.root = rootDir;
+    this.root = aux2;
     atualizarAltura(node);
+    return this.root;
   }
 
-  private void ajustarGiroParaEsquerda(Node A) {
-    Node B = A.dir, C = A.dir.esq, D = A.dir.esq.dir;
-    A.dir = C;
-    C.dir = B;
-    B.esq = D;
-
-    C.pai = A;
-    B.pai = C;
-    if(D!=null){
-      D.pai = B;
+  private void ajustarGiroParaEsquerda(Node node) {
+    Node aux = node.dir, aux2 = node.dir.esq, aux3 = node.dir.esq.dir;
+    node.dir = aux2;
+    aux2.dir = aux;
+    aux.esq = aux3;
+    aux2.pai = node;
+    aux.pai = aux2;
+    if (aux3 != null) {
+      aux3.pai = aux;
     }
-    atualizarAltura(B);
+    atualizarAltura(aux);
   }
-
-
-
-
-
 
   private void atualizarAltura(Node node) {
     while (node != null) {
