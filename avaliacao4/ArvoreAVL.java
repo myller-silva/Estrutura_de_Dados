@@ -1,15 +1,13 @@
 package avaliacao4;
 
-public class Arvore {
+public class ArvoreAVL {
   Node root;
 
-  Arvore() {
+  ArvoreAVL() {
   }
 
-  Arvore(int... values) {
-    for (int value : values) {
-      this.insert(value);
-    }
+  ArvoreAVL(int... values) {
+    this.insert(values);
   }
 
   public boolean isEmpty() {
