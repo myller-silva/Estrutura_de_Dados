@@ -1,0 +1,3 @@
+Main-Class: avaliacao4/Main
+Name: avaliacao4/Main.class
+Java-Bean: false
