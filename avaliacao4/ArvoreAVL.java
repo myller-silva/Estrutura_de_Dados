@@ -2,6 +2,7 @@ package avaliacao4;
 
 public class ArvoreAVL {
   Node root;
+  int length=0;
 
   ArvoreAVL() {
   }
@@ -37,6 +38,7 @@ public class ArvoreAVL {
       if (root == null) {
         this.root = ptr;
       }
+      this.length++; //
       return ptr;
     } else {
       Node aux = null;
@@ -69,32 +71,16 @@ public class ArvoreAVL {
       } else if (dir > esq + 1) {
         node = girarParaEsquerda(node);
       }
-      if (node == null) {
-        break;
-      }
       node = node.pai;
     }
   }
 
-  private void ajustarGiroParaDireita(Node node) {
-    Node aux = node.esq, aux2 = aux.dir, aux3 = aux2.esq;
-    node.esq = aux2;
-    aux2.esq = aux;
-    aux.dir = aux3;
-    aux.pai = aux2;
-    aux2.pai = node;
-    if (aux3 != null) {
-      aux3.pai = aux;
-    }
-    atualizarAltura(aux);
-  }
-
   private Node girarParaDireita(Node node) {
-    if (node.equals(this.root)) {
-      return girarRootDireita(node);
-    }
     if (node.esq.esq == null) {
       ajustarGiroParaDireita(node);
+    }
+    if (node.equals(this.root)) {
+      return girarRootDireita(node);
     }
     Node pai = node.pai, aux = node.esq, aux2 = aux.dir;
     if (pai.esq.equals(node)) {
@@ -113,11 +99,21 @@ public class ArvoreAVL {
     return aux;
   }
 
+  private void ajustarGiroParaDireita(Node node) {
+    Node aux = node.esq, aux2 = aux.dir, aux3 = aux2.esq;
+    node.esq = aux2;
+    aux2.esq = aux;
+    aux.dir = aux3;
+    aux.pai = aux2;
+    aux2.pai = node;
+    if (aux3 != null) {
+      aux3.pai = aux;
+    }
+    atualizarAltura(aux);
+  }
+
   private Node girarRootDireita(Node node) {
     Node aux = node.esq, aux2 = aux.dir;
-    if (aux.esq == null) {
-      ajustarGiroParaDireita(node);
-    }
     this.root = aux;
     node.esq = aux.dir;
     aux.dir = node;
@@ -131,11 +127,11 @@ public class ArvoreAVL {
   }
 
   private Node girarParaEsquerda(Node node) {
-    if (node.equals(this.root)) {
-      return girarRootEsquerda(node);
-    }
     if (node.dir.dir == null) {
       ajustarGiroParaEsquerda(node);
+    }
+    if (node.equals(this.root)) {
+      return girarRootEsquerda(node);
     }
     Node pai = node.pai,  aux = node.dir,  aux2 = node.dir.esq;
     if (pai.esq.equals(node)) {
@@ -154,23 +150,6 @@ public class ArvoreAVL {
     return aux;
   }
 
-  private Node girarRootEsquerda(Node node) {
-    if (node.dir.dir == null) {
-      ajustarGiroParaEsquerda(node);
-    }
-    Node aux = this.root, aux2 = this.root.dir, aux3 = aux.dir.esq;
-    aux.dir = aux3;
-    aux2.esq = aux;
-    aux.pai = aux2;
-    aux2.pai = null;
-    if (aux3 != null) {
-      aux3.pai = aux;
-    }
-    this.root = aux2;
-    atualizarAltura(node);
-    return this.root;
-  }
-
   private void ajustarGiroParaEsquerda(Node node) {
     Node aux = node.dir, aux2 = node.dir.esq, aux3 = node.dir.esq.dir;
     node.dir = aux2;
@@ -184,9 +163,27 @@ public class ArvoreAVL {
     atualizarAltura(aux);
   }
 
+  private Node girarRootEsquerda(Node node) {
+    Node aux = this.root, aux2 = this.root.dir, aux3 = aux.dir.esq;
+    aux.dir = aux3;
+    aux2.esq = aux;
+    aux.pai = aux2;
+    aux2.pai = null;
+    if (aux3 != null) {
+      aux3.pai = aux;
+    }
+    this.root = aux2;
+    atualizarAltura(node);
+    return this.root;
+  }
+
   private void atualizarAltura(Node node) {
     while (node != null) {
+      // int temp = node.alt;
       node.alt = max(node.esq, node.dir) + 1;
+      // if(temp == node.alt){ //obs
+      //   break;
+      // }
       node = node.pai;
     }
   }
